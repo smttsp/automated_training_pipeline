@@ -1,0 +1,6 @@
+project_name: "fashion_mnist"
+data_dir: "_data/fashion_mnist"
+
+training:
+  epochs: 4
+  batch_size: 32
