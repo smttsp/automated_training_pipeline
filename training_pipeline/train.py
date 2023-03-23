@@ -145,7 +145,7 @@ def train_model(cfg):
         )
 
         print(
-            f"{epoch=}"
+            f"\n{epoch=}"
             f"\n\tTrain      --- loss: {train_loss}, acc: {train_acc}"
             f"\n\tValidation --- loss: {val_loss}, acc: {val_acc}"
         )

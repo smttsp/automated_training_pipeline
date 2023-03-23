@@ -44,7 +44,7 @@ run every midnight or once a week etc. This step is really not the most crucial 
 6. &check; Metric
 7. &check; Visualizations 
 8. Save/load model
-9. Integrating YAML 
+9. &check; Integrating YAML 
 10. Automated training (From 50% of the data to 100% of the data)
 11. Visualization export using plotly (Accuracy, Confusion metrics etc)
 12. Making the training fully functional by only selecting project (MNIST/FashionMNIST etc)
