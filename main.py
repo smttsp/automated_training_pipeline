@@ -1,7 +1,8 @@
-from training_pipeline.dataloader import get_dataloaders
+from training_pipeline.train import train_model
 
 
 if __name__ == "__main__":
-    train_loader, val_loader, test_loader = get_dataloaders()
+
+    train_model(epochs=3)
 
 
