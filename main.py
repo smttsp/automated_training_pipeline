@@ -1,8 +1,10 @@
-from training_pipeline.train import train_model
 import os
-import hydra
 from datetime import datetime
+
+import hydra
 import torch
+
+from training_pipeline.train import train_model
 
 
 def get_runtime_str():

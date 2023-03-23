@@ -1,13 +1,14 @@
 import sys
 
+import matplotlib.pyplot as plt
 import torch
-from tqdm import tqdm
 import torchmetrics
+from mlxtend.plotting import plot_confusion_matrix
+from torch import nn
+from tqdm import tqdm
+
 from training_pipeline.dataloader import get_dataloaders
 from training_pipeline.simple_cnn import Simple_CNN_Classification
-from torch import nn
-from mlxtend.plotting import plot_confusion_matrix
-import matplotlib.pyplot as plt
 
 
 EPS = sys.float_info.epsilon

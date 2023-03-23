@@ -1,5 +1,5 @@
-from torch import nn
 import torch
+from torch import nn
 
 
 class Simple_CNN_Classification(nn.Module):

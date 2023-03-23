@@ -1,7 +1,8 @@
 import os
-from torchvision import datasets, transforms
+
 import torch
 from torch.utils import data
+from torchvision import datasets, transforms
 
 
 def download_mnist(data_dir):
