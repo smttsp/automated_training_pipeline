@@ -78,9 +78,7 @@ def get_confusion_matrix(model, cur_dataloader):
 
     # Plot the confusion matrix
     fig, ax = plot_confusion_matrix(
-        conf_mat=confmat_tensor.numpy(),
-        class_names=class_names,
-        figsize=(10, 7)
+        conf_mat=confmat_tensor.numpy(), class_names=class_names, figsize=(10, 7)
     )
     # plt.show()
     return None
@@ -123,7 +121,7 @@ def prepare_model(train_loader):
     first_X, first_y = next(iter(train_loader))
     num_classes = len(train_loader.dataset.dataset.classes)
 
-    model = Simple_CNN_Classification(first_X.shape,  hidden_units=10, output_shape=num_classes)
+    model = Simple_CNN_Classification(first_X.shape, hidden_units=10, output_shape=num_classes)
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(params=model.parameters(), lr=0.1)
     acc_fn = torchmetrics.Accuracy(task="multiclass", num_classes=num_classes)
@@ -156,3 +154,5 @@ def train_model(cfg):
     print(f"\n\tTest results --- loss: {test_loss}, acc: {test_acc}")
 
     get_confusion_matrix(model, test_loader)
+
+    return model

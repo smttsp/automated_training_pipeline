@@ -11,42 +11,49 @@ class Simple_CNN_Classification(nn.Module):
         num_conv_block = 2
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(in_channels=input_channels,
-                      out_channels=hidden_units,
-                      kernel_size=3,
-                      stride=1,
-                      padding=1),
+            nn.Conv2d(
+                in_channels=input_channels,
+                out_channels=hidden_units,
+                kernel_size=3,
+                stride=1,
+                padding=1,
+            ),
             nn.ReLU(),
-            nn.Conv2d(in_channels=hidden_units,
-                      out_channels=hidden_units,
-                      kernel_size=3,
-                      stride=1,
-                      padding=1),
+            nn.Conv2d(
+                in_channels=hidden_units,
+                out_channels=hidden_units,
+                kernel_size=3,
+                stride=1,
+                padding=1,
+            ),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2)
+            nn.MaxPool2d(kernel_size=2),
         )
         self.conv_block_2 = nn.Sequential(
-            nn.Conv2d(in_channels=hidden_units,
-                      out_channels=hidden_units,
-                      kernel_size=3,
-                      stride=1,
-                      padding=1),
+            nn.Conv2d(
+                in_channels=hidden_units,
+                out_channels=hidden_units,
+                kernel_size=3,
+                stride=1,
+                padding=1,
+            ),
             nn.ReLU(),
-            nn.Conv2d(in_channels=hidden_units,
-                      out_channels=hidden_units,
-                      kernel_size=3,
-                      stride=1,
-                      padding=1),
+            nn.Conv2d(
+                in_channels=hidden_units,
+                out_channels=hidden_units,
+                kernel_size=3,
+                stride=1,
+                padding=1,
+            ),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2)
+            nn.MaxPool2d(kernel_size=2),
         )
 
         in_features_for_flat_layer = int(hidden_units * (input_hw / 2 ** num_conv_block) ** 2)
 
         self.classifier = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(in_features=in_features_for_flat_layer,
-                      out_features=output_shape)
+            nn.Linear(in_features=in_features_for_flat_layer, out_features=output_shape),
         )
 
     def forward(self, x):

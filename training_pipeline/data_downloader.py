@@ -20,7 +20,7 @@ def download_mnist(data_dir):
     os.makedirs(data_dir, exist_ok=True)
 
     # if data already exists, don't download it. Pull from the disk
-    download = not os.path.exists(os.path.join(data_dir, 'MNIST', 'raw'))
+    download = not os.path.exists(os.path.join(data_dir, "MNIST", "raw"))
 
     full_train_data = datasets.MNIST(
         root=data_dir,
@@ -35,10 +35,10 @@ def download_mnist(data_dir):
         train=False,
         download=download,
         transform=transforms.ToTensor(),
-        target_transform=None
+        target_transform=None,
     )
     val_len = len(test_data)
-    train_len = len(full_train_data)-val_len
+    train_len = len(full_train_data) - val_len
 
     train_data, val_data = data.random_split(full_train_data, [train_len, val_len])
 
@@ -61,7 +61,7 @@ def download_fashion_mnist(data_dir):
     os.makedirs(data_dir, exist_ok=True)
 
     # if data already exists, don't download it. Pull from the disk
-    download = not os.path.exists(os.path.join(data_dir, 'FashionMNIST', 'raw'))
+    download = not os.path.exists(os.path.join(data_dir, "FashionMNIST", "raw"))
 
     full_train_data = datasets.FashionMNIST(
         root=data_dir,
@@ -76,10 +76,10 @@ def download_fashion_mnist(data_dir):
         train=False,
         download=download,
         transform=transforms.ToTensor(),
-        target_transform=None
+        target_transform=None,
     )
     val_len = len(test_data)
-    train_len = len(full_train_data)-val_len
+    train_len = len(full_train_data) - val_len
 
     train_data, val_data = data.random_split(full_train_data, [train_len, val_len])
 
