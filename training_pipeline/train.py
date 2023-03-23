@@ -85,7 +85,7 @@ def prepare_model(train_loader):
 
     model = Simple_CNN_Classification(first_X.shape,  hidden_units=10, output_shape=num_classes)
     loss_fn = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(params=model.parameters(), lr=0.1)
+    optimizer = torch.optim.SGD(params=model.parameters(), lr=0.1)
     acc_fn = torchmetrics.Accuracy(task="multiclass", num_classes=num_classes)
     return model, loss_fn, acc_fn, optimizer
 

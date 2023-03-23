@@ -36,15 +36,17 @@ run every midnight or once a week etc. This step is really not the most crucial 
 
 # Poor man's Jira
 
-1. Setting up the repo
-2. Data downloader for a bunch of classification tasks
-3. Simple CNN Model for classification
-4. Dataloaders (train, val, test)
+1. + Setting up the repo
+2. + Data downloader for a bunch of classification tasks
+3. + Simple CNN Model for classification
+4. + Dataloaders (train, val, test)
 5. Full Training Pipeline (for a specific task)
 6. Metric
 7. Visualizations 
-8. Integrating YAML 
-9. Automated training (From 50% of the data to 100% of the data)
-10. Visualization export using plotly (Accuracy, Confusion metrics etc)
-11. Making the training fully functional by only selecting project (MNIST/FashionMNIST etc)
-12. Ray[Tune] integration
+8. Save/load model 
+9. Integrating YAML 
+10. Automated training (From 50% of the data to 100% of the data)
+11. Visualization export using plotly (Accuracy, Confusion metrics etc)
+12. Making the training fully functional by only selecting project (MNIST/FashionMNIST etc)
+13. Ray[Tune] integration 
+14. Device-agnostic code (not needed for now as I have only cpu)
