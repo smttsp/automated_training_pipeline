@@ -2,8 +2,8 @@ import os
 from torchvision import datasets, transforms
 
 
-def download_data(root="data", download=True):
-    """Downloading the data
+def download_fashion_mnist(root="_data", download=True):
+    """Downloading the fashion mnist data
 
     Args:
         root ():
@@ -12,11 +12,11 @@ def download_data(root="data", download=True):
     Returns:
 
     """
-    
+
     os.makedirs(root, exist_ok=True)
 
     train_data = datasets.FashionMNIST(
-        root="data",
+        root=root,
         train=True,
         download=download,
         transform=transforms.ToTensor(),
@@ -24,7 +24,7 @@ def download_data(root="data", download=True):
     )
 
     test_data = datasets.FashionMNIST(
-        root="data",
+        root=root,
         train=False,
         download=download,
         transform=transforms.ToTensor(),
