@@ -84,3 +84,12 @@ def download_fashion_mnist(data_dir):
     train_data, val_data = data.random_split(full_train_data, [train_len, val_len])
 
     return train_data, val_data, test_data
+
+
+def download_project(project_name, data_dir):
+    download_fn = {
+        "fashion_mnist": download_fashion_mnist,
+        "mnist": download_mnist,
+    }.get(project_name)
+    train_data, val_data, test_data = download_fn(data_dir)
+    return train_data, val_data, test_data
