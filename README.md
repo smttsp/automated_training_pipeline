@@ -32,3 +32,19 @@ or something like that), the code will do retraining.
 Users can change these conditions, for example, get the hash of the previous data. If the hash has changed, then retrain. 
 One of the use case might be that the number of images may not change but the quality of it may change. So, user might wanna
 run every midnight or once a week etc. This step is really not the most crucial aspect of the project
+
+
+# Poor man's Jira
+
+1. Setting up the repo
+2. Data downloader for a bunch of classification tasks
+3. Simple CNN Model for classification
+4. Dataloaders (train, val, test)
+5. Full Training Pipeline (for a specific task)
+6. Metric
+7. Visualizations 
+8. Integrating YAML 
+9. Automated training (From 50% of the data to 100% of the data)
+10. Visualization export using plotly (Accuracy, Confusion metrics etc)
+11. Making the training fully functional by only selecting project (MNIST/FashionMNIST etc)
+12. Ray[Tune] integration
