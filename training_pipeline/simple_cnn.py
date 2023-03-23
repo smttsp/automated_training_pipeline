@@ -1,10 +1,15 @@
 from torch import nn
+import torch
 
 
 class Simple_CNN_Classification(nn.Module):
-
-    def __init__(self, input_channels: int, hidden_units: int, output_shape: int):
+    def __init__(self, input_shape: torch.Size, hidden_units: int, output_shape: int):
         super().__init__()
+
+        input_channels = input_shape[1]
+        input_hw = input_shape[-1]
+        num_conv_block = 2
+
         self.conv_block_1 = nn.Sequential(
             nn.Conv2d(in_channels=input_channels,
                       out_channels=hidden_units,
@@ -35,9 +40,12 @@ class Simple_CNN_Classification(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2)
         )
+
+        in_features_for_flat_layer = int(hidden_units * (input_hw / 2 ** num_conv_block) ** 2)
+
         self.classifier = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(in_features=hidden_units * 7 * 7,
+            nn.Linear(in_features=in_features_for_flat_layer,
                       out_features=output_shape)
         )
 
