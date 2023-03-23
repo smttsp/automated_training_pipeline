@@ -1,10 +1,9 @@
-import os
-from torchvision import datasets, transforms
-import torch
-from torch.utils import data
+from torch.utils.data import DataLoader
+
+from training_pipeline.data_downloader import download_fashion_mnist
 
 
-def download_fashion_mnist(root="_data/fashion_mnist"):
+def get_dataloaders(batch_size=32):
     """Downloading the fashion mnist data
 
     Args:
@@ -13,30 +12,9 @@ def download_fashion_mnist(root="_data/fashion_mnist"):
     Returns:
 
     """
-    torch.manual_seed(41)
-    os.makedirs(root, exist_ok=True)
+    train_data, val_data, test_data = download_fashion_mnist()
+    train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
+    val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False)
+    test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False)
 
-    # if data already exists, don't download it. Pull from the disk
-    download = not os.path.exists(os.path.join(root, 'FashionMNIST', 'processed'))
-
-    full_train_data = datasets.FashionMNIST(
-        root=root,
-        train=True,
-        download=download,
-        transform=transforms.ToTensor(),
-        target_transform=None,
-    )
-
-    test_data = datasets.FashionMNIST(
-        root=root,
-        train=False,
-        download=download,
-        transform=transforms.ToTensor(),
-        target_transform=None
-    )
-    val_len = len(test_data)
-    train_len = len(full_train_data)-val_len
-
-    train_data, val_data = data.random_split(full_train_data, [train_len, val_len])
-
-    return train_data, val_data, test_data
+    return train_loader, val_loader, test_loader
