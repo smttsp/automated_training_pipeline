@@ -82,7 +82,7 @@ def get_confusion_matrix(model, cur_dataloader):
         class_names=class_names,
         figsize=(10, 7)
     )
-    plt.show()
+    # plt.show()
     return None
 
 
@@ -147,8 +147,10 @@ def train_model(epochs=5):
             f"\n\tTrain      --- loss: {train_loss}, acc: {train_acc}"
             f"\n\tValidation --- loss: {val_loss}, acc: {val_acc}"
         )
+    test_loss, test_acc = eval_step(
+        model, cur_dataloader=test_loader, acc_fn=acc_fn, loss_fn=loss_fn
+    )
+
+    print(f"\n\tTest results --- loss: {test_loss}, acc: {test_acc}")
 
     get_confusion_matrix(model, test_loader)
-    # test_loss, test_acc = eval_step(
-    #     model, cur_dataloader=test_loader, acc_fn=acc_fn, loss_fn=loss_fn
-    # )
