@@ -6,6 +6,7 @@ import torchmetrics
 from training_pipeline.dataloader import get_dataloaders
 from training_pipeline.simple_cnn import Simple_CNN_Classification
 from torch import nn
+from mlxtend.plotting import plot_confusion_matrix
 
 EPS = sys.float_info.epsilon
 
@@ -44,6 +45,43 @@ def train_step(
     mean_train_acc = total_acc / (cur_len + EPS)
 
     return mean_train_loss, mean_train_acc
+
+
+def get_all_predictions(model, cur_dataloader):
+    model.eval()
+    y_pred_all = []
+    y_all = []
+    with torch.inference_mode():
+        for X, y in cur_dataloader:
+            # X = X.to(device)
+            # y = y.to(device)
+
+            y_logits = model(X)
+            y_preds = torch.softmax(y_logits, dim=1)
+            y_pred_labels = y_preds.argmax(dim=1)
+            y_pred_all.extend(y_pred_labels)
+            y_all.extend(y)
+
+    return y_all, y_pred_all
+
+
+def get_confusion_matrix(model, cur_dataloader):
+    class_names = cur_dataloader.dataset.classes
+    y_true, y_preds = get_all_predictions(model, cur_dataloader)
+
+    # Setup confusion matrix
+    confmat = torchmetrics.ConfusionMatrix(task="multiclass", num_classes=len(class_names))
+    confmat_tensor = confmat(preds=y_preds,
+                             target=y_true)
+
+    # Plot the confusion matrix
+    fig, ax = plot_confusion_matrix(
+        conf_mat=confmat_tensor.numpy(),
+        class_names=class_names,
+        figsize=(10, 7)
+    )
+    plt.show()
+    return None
 
 
 def eval_step(
@@ -101,13 +139,14 @@ def train_model(epochs=5):
         val_loss, val_acc = eval_step(
             model, cur_dataloader=val_loader, acc_fn=acc_fn, loss_fn=loss_fn
         )
-        test_loss, test_acc = eval_step(
-            model, cur_dataloader=test_loader, acc_fn=acc_fn, loss_fn=loss_fn
-        )
 
         print(
             f"{epoch=}"
             f"\n\tTrain      --- loss: {train_loss}, acc: {train_acc}"
             f"\n\tValidation --- loss: {val_loss}, acc: {val_acc}"
-            f"\n\tTest       --- loss: {test_loss}, acc: {test_acc}"
         )
+
+    get_confusion_matrix(model, test_loader)
+    # test_loss, test_acc = eval_step(
+    #     model, cur_dataloader=test_loader, acc_fn=acc_fn, loss_fn=loss_fn
+    # )
