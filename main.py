@@ -18,6 +18,8 @@ def get_runtime_str():
 @hydra.main(version_base=None, config_path="./configs", config_name="fashion_mnist")
 def main_fn(cfg):
     model = train_model(cfg)
+
+    os.makedirs(cfg.training.save_dir, exist_ok=True)
     save_path = os.path.join(cfg.training.save_dir, f"{get_runtime_str()}.pth")
     torch.save(obj=model.state_dict(), f=save_path)
     return None
