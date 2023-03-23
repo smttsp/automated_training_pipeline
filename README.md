@@ -1,9 +1,13 @@
 # Automated Training Pipeline 
 
-This repo takes a common dataset from `torchvision.Dataset` (such as MNIST or FashionMNIST) and a yaml file. Then,
-it automatically trains a simple CNN model, compares with previous best model and saves it. 
+This repository provides an automated training pipeline that simplifies the process of training and updating deep learning models with new data.
 
-## Idea behind the code
+The pipeline takes a common dataset from `torchvision.Dataset` (such as MNIST or FashionMNIST) and a configuration file in YAML format. 
+It then automatically trains a simple CNN model on the specified data, compares its performance to the previous best model,
+and saves the new model if it performs better.
+
+
+## Motivation
 
 One of the major things in AI/DL is the data. Often, we have a model and once we have "better" data, we retrain our 
 models with the new data. However, this process may be cumbersome as 
