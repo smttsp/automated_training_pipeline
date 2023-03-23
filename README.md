@@ -36,11 +36,11 @@ run every midnight or once a week etc. This step is really not the most crucial 
 
 # Poor man's Jira
 
-1. + Setting up the repo
-2. + Data downloader for a bunch of classification tasks
-3. + Simple CNN Model for classification
-4. + Dataloaders (train, val, test)
-5. Full Training Pipeline (for a specific task)
+1. &check; Setting up the repo
+2. &check; Data downloader for a bunch of classification tasks
+3. &check; Simple CNN Model for classification
+4. &check; Dataloaders (train, val, test)
+5. &check; Full Training Pipeline (for a specific task)
 6. Metric
 7. Visualizations 
 8. Save/load model 
