@@ -63,7 +63,7 @@ def get_all_predictions(model, cur_dataloader):
             y_pred_labels = y_pred.argmax(dim=1)
             y_pred_all.extend(y_pred_labels)
             y_all.extend(y)
-    y_true = torch.Tensor(y.item() for y in y_all)
+    y_true = torch.Tensor([y.item() for y in y_all])
     y_preds = torch.Tensor([y.item() for y in y_pred_all])
     return y_true, y_preds
 
