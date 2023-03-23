@@ -130,8 +130,10 @@ def prepare_model(train_loader):
     return model, loss_fn, acc_fn, optimizer
 
 
-def train_model(epochs=5):
-    train_loader, val_loader, test_loader = get_dataloaders()
+def train_model(cfg):
+    epochs = cfg.get("training", {}).get("epochs", 5)
+
+    train_loader, val_loader, test_loader = get_dataloaders(cfg)
     model, loss_fn, acc_fn, optimizer = prepare_model(train_loader)
 
     for epoch in tqdm(range(epochs)):
