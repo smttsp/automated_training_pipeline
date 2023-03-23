@@ -7,6 +7,8 @@ from training_pipeline.dataloader import get_dataloaders
 from training_pipeline.simple_cnn import Simple_CNN_Classification
 from torch import nn
 from mlxtend.plotting import plot_confusion_matrix
+import matplotlib.pyplot as plt
+
 
 EPS = sys.float_info.epsilon
 
@@ -57,12 +59,13 @@ def get_all_predictions(model, cur_dataloader):
             # y = y.to(device)
 
             y_logits = model(X)
-            y_preds = torch.softmax(y_logits, dim=1)
-            y_pred_labels = y_preds.argmax(dim=1)
+            y_pred = torch.softmax(y_logits, dim=1)
+            y_pred_labels = y_pred.argmax(dim=1)
             y_pred_all.extend(y_pred_labels)
             y_all.extend(y)
-
-    return y_all, y_pred_all
+    y_true = torch.Tensor(y.item() for y in y_all)
+    y_preds = torch.Tensor([y.item() for y in y_pred_all])
+    return y_true, y_preds
 
 
 def get_confusion_matrix(model, cur_dataloader):
@@ -71,8 +74,7 @@ def get_confusion_matrix(model, cur_dataloader):
 
     # Setup confusion matrix
     confmat = torchmetrics.ConfusionMatrix(task="multiclass", num_classes=len(class_names))
-    confmat_tensor = confmat(preds=y_preds,
-                             target=y_true)
+    confmat_tensor = confmat(preds=y_preds, target=y_true)
 
     # Plot the confusion matrix
     fig, ax = plot_confusion_matrix(
