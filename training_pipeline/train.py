@@ -1,9 +1,11 @@
 import sys
 
 import torch
-
+from tqdm import tqdm
 import torchmetrics
-
+from training_pipeline.dataloader import get_dataloaders
+from training_pipeline.simple_cnn import Simple_CNN_Classification
+from torch import nn
 
 EPS = sys.float_info.epsilon
 
@@ -12,6 +14,7 @@ def train_step(
     model,
     cur_dataloader,
     loss_fn,
+    acc_fn,
     optimizer,
     # device
 ):
@@ -27,7 +30,7 @@ def train_step(
         y_preds = torch.softmax(y_logits, dim=1)
         y_pred_labels = y_preds.argmax(dim=1)
         loss = loss_fn(y_logits, y)
-        acc = torchmetrics.Accuracy(y, y_pred_labels)
+        acc = acc_fn(y, y_pred_labels)
 
         total_loss += loss
         total_acc += acc
@@ -47,6 +50,7 @@ def eval_step(
     model,
     cur_dataloader,
     loss_fn,
+    acc_fn,
     # device,
 ):
     model.eval()
@@ -63,7 +67,7 @@ def eval_step(
             y_preds = torch.softmax(y_logits, dim=1)
             y_pred_labels = y_preds.argmax(dim=1)
             loss = loss_fn(y_logits, y)
-            acc = torchmetrics.Accuracy(y, y_pred_labels)
+            acc = acc_fn(y, y_pred_labels)
 
             total_loss += loss
             total_acc += acc
@@ -75,6 +79,35 @@ def eval_step(
     return mean_loss, mean_accuracy
 
 
-def train_model():
-    pass
+def prepare_model(train_loader):
+    first_X, first_y = next(iter(train_loader))
+    num_classes = len(train_loader.dataset.dataset.classes)
 
+    model = Simple_CNN_Classification(first_X.shape,  hidden_units=10, output_shape=num_classes)
+    loss_fn = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(params=model.parameters(), lr=0.1)
+    acc_fn = torchmetrics.Accuracy(task="multiclass", num_classes=num_classes)
+    return model, loss_fn, acc_fn, optimizer
+
+
+def train_model(epochs=5):
+    train_loader, val_loader, test_loader = get_dataloaders()
+    model, loss_fn, acc_fn, optimizer = prepare_model(train_loader)
+
+    for epoch in tqdm(range(epochs)):
+        train_loss, train_acc = train_step(
+            model, cur_dataloader=train_loader, loss_fn=loss_fn, acc_fn=acc_fn, optimizer=optimizer
+        )
+        val_loss, val_acc = eval_step(
+            model, cur_dataloader=val_loader, acc_fn=acc_fn, loss_fn=loss_fn
+        )
+        test_loss, test_acc = eval_step(
+            model, cur_dataloader=test_loader, acc_fn=acc_fn, loss_fn=loss_fn
+        )
+
+        print(
+            f"{epoch=}"
+            f"\n\tTrain      --- loss: {train_loss}, acc: {train_acc}"
+            f"\n\tValidation --- loss: {val_loss}, acc: {val_acc}"
+            f"\n\tTest       --- loss: {test_loss}, acc: {test_acc}"
+        )
