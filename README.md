@@ -43,7 +43,7 @@ run every midnight or once a week etc. This step is really not the most crucial 
 5. &check; Full Training Pipeline (for a specific task)
 6. &check; Metric
 7. &check; Visualizations 
-8. Save/load model
+8. &check; Save/load model
 9. &check; Integrating YAML 
 10. Automated training (From 50% of the data to 100% of the data)
 11. Visualization export using plotly (Accuracy, Confusion metrics etc)
