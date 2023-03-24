@@ -142,3 +142,5 @@ dmypy.json
 outputs/*
 **.pth
 **.pt
+_data/**
+_model/**
