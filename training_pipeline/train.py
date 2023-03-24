@@ -14,14 +14,7 @@ from training_pipeline.utils.metrics_utils import get_confusion_matrix
 EPS = sys.float_info.epsilon
 
 
-def train_step(
-    model,
-    cur_dataloader,
-    loss_fn,
-    acc_fn,
-    optimizer,
-    device
-):
+def train_step(model, cur_dataloader, loss_fn, acc_fn, optimizer, device):
     model.train()
 
     total_loss = 0
@@ -104,7 +97,9 @@ def prepare_model(train_loader, device):
     first_X, first_y = next(iter(train_loader))
     num_classes = len(train_loader.dataset.dataset.classes)
 
-    model = Simple_CNN_Classification(first_X.shape, hidden_units=32, output_shape=num_classes).to(device=device)
+    model = Simple_CNN_Classification(first_X.shape, hidden_units=32, output_shape=num_classes).to(
+        device=device
+    )
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(params=model.parameters(), lr=0.1)
     acc_fn = torchmetrics.Accuracy(task="multiclass", num_classes=num_classes).to(device=device)
@@ -120,10 +115,19 @@ def train_model(cfg, device):
 
     for epoch in tqdm(range(epochs)):
         train_loss, train_acc = train_step(
-            model, cur_dataloader=train_loader, loss_fn=loss_fn, acc_fn=acc_fn, optimizer=optimizer, device=device
+            model,
+            cur_dataloader=train_loader,
+            loss_fn=loss_fn,
+            acc_fn=acc_fn,
+            optimizer=optimizer,
+            device=device,
         )
         val_loss, val_acc = eval_step(
-            model, cur_dataloader=val_loader, acc_fn=acc_fn, loss_fn=loss_fn, device=device,
+            model,
+            cur_dataloader=val_loader,
+            acc_fn=acc_fn,
+            loss_fn=loss_fn,
+            device=device,
         )
 
         print(
@@ -132,7 +136,11 @@ def train_model(cfg, device):
             f"\n\tValidation --- loss: {val_loss}, acc: {val_acc}"
         )
     test_loss, test_acc = eval_step(
-        model, cur_dataloader=test_loader, acc_fn=acc_fn, loss_fn=loss_fn, device=device,
+        model,
+        cur_dataloader=test_loader,
+        acc_fn=acc_fn,
+        loss_fn=loss_fn,
+        device=device,
     )
 
     print(f"\n\tTest results --- loss: {test_loss}, acc: {test_acc}")

@@ -1,7 +1,10 @@
 from torch.utils.data import DataLoader
 
 from training_pipeline.data_downloader import download_fashion_mnist, download_project
-from training_pipeline.utils.visualizations import visualize_random_inputs_from_dataloader
+from training_pipeline.utils.visualizations import (
+    visualize_random_inputs,
+    visualize_data_distribution,
+)
 
 
 def get_dataloaders(cfg):
@@ -22,10 +25,14 @@ def get_dataloaders(cfg):
 
     visualize = True
     if visualize:
+        visualize_data_distribution(train_data, title="training set")
+        visualize_data_distribution(val_data, title="validation set")
+        visualize_data_distribution(test_data, title="test set")
+
         rowcol = (5, 5)
-        visualize_random_inputs_from_dataloader(train_data, rowcol, "training set")
-        visualize_random_inputs_from_dataloader(val_data, rowcol, "validation set")
-        visualize_random_inputs_from_dataloader(test_data, rowcol, "test set")
+        visualize_random_inputs(train_data, rowcol, "training set")
+        visualize_random_inputs(val_data, rowcol, "validation set")
+        visualize_random_inputs(test_data, rowcol, "test set")
 
     train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False)
