@@ -1,10 +1,19 @@
 import matplotlib.pyplot as plt
 import random
+import numpy
+from torch.utils.data.dataset import Subset
 
 
-def visualize_random_inputs_from_dataloader(dataset, rowcol: tuple, suptitle="training"):
+def get_classes_targets(dataset):
+    if isinstance(dataset, Subset):
+        classes = dataset.dataset.classes
+        indices = set(dataset.indices)
+        targets = [x for idx, x in enumerate(dataset.dataset.targets) if idx in indices]
+    else:
     classes = dataset.classes
     targets = dataset.targets
+    return classes, targets
+
     rows, cols = rowcol
     samples = random.sample(range(len(dataset)), rows * cols)
     # item = dataset.data[x[0]]
