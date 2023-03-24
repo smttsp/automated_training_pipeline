@@ -3,12 +3,12 @@ import sys
 import matplotlib.pyplot as plt
 import torch
 import torchmetrics
-from mlxtend.plotting import plot_confusion_matrix
 from torch import nn
 from tqdm import tqdm
 
 from training_pipeline.dataloader import get_dataloaders
 from training_pipeline.simple_cnn import Simple_CNN_Classification
+from training_pipeline.utils.metrics_utils import get_confusion_matrix
 
 
 EPS = sys.float_info.epsilon
@@ -68,22 +68,6 @@ def get_all_predictions(model, cur_dataloader, device):
     return y_true, y_preds
 
 
-def get_confusion_matrix(model, cur_dataloader, device):
-    class_names = cur_dataloader.dataset.classes
-    y_true, y_preds = get_all_predictions(model, cur_dataloader, device)
-
-    # Setup confusion matrix
-    confmat = torchmetrics.ConfusionMatrix(task="multiclass", num_classes=len(class_names))
-    confmat_tensor = confmat(preds=y_preds, target=y_true)
-
-    # Plot the confusion matrix
-    fig, ax = plot_confusion_matrix(
-        conf_mat=confmat_tensor.numpy(), class_names=class_names, figsize=(10, 7)
-    )
-    # plt.show()
-    return None
-
-
 def eval_step(
     model,
     cur_dataloader,
@@ -127,11 +111,14 @@ def prepare_model(train_loader, device):
     return model, loss_fn, acc_fn, optimizer
 
 
+
+
 def train_model(cfg, device):
     epochs = cfg.get("training", {}).get("epochs", 5)
 
     train_loader, val_loader, test_loader = get_dataloaders(cfg)
     model, loss_fn, acc_fn, optimizer = prepare_model(train_loader, device)
+    class_names = test_loader.dataset.classes
 
     for epoch in tqdm(range(epochs)):
         train_loss, train_acc = train_step(
@@ -152,6 +139,7 @@ def train_model(cfg, device):
 
     print(f"\n\tTest results --- loss: {test_loss}, acc: {test_acc}")
 
-    get_confusion_matrix(model, test_loader, device)
+    y_true, y_preds = get_all_predictions(model, test_loader, device)
+    fig, ax = get_confusion_matrix(y_true, y_preds, class_names, device)
 
     return model
