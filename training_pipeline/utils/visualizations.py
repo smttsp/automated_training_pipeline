@@ -10,22 +10,39 @@ def get_classes_targets(dataset):
         indices = set(dataset.indices)
         targets = [x for idx, x in enumerate(dataset.dataset.targets) if idx in indices]
     else:
-    classes = dataset.classes
-    targets = dataset.targets
+        classes = dataset.classes
+        targets = dataset.targets
     return classes, targets
 
-    rows, cols = rowcol
-    samples = random.sample(range(len(dataset)), rows * cols)
-    # item = dataset.data[x[0]]
 
-    plt.figure(figsize=(2 * cols, 2*rows))
+def visualize_random_inputs(dataset, rowcol: tuple, suptitle="training"):
+    classes, targets = get_classes_targets(dataset)
+    rows, cols = rowcol
+    samples = random.sample(range(len(targets)), rows * cols)
+
+    plt.figure(figsize=(2 * cols, 2 * rows))
     plt.suptitle(suptitle.upper(), color="r")
     for idx, pos in enumerate(samples):
         image = dataset.data[pos]
         plt.subplot(rows, cols, idx + 1)
-        plt.imshow(image, cmap='gray')
+        plt.imshow(image, cmap="gray")
         plt.axis(False)
         class_name = classes[targets[pos]]
         plt.title(class_name)
     plt.show()
-    pass
+    return None
+
+
+def visualize_data_distribution(dataset, title="training"):
+    classes, targets = get_classes_targets(dataset)
+    hist, _ = numpy.histogram(targets, bins=len(classes))
+    bins = numpy.array(range(len(hist)))
+    plt.figure()
+    plt.bar(bins, hist, width=0.6)
+
+    plt.xlabel("Values")
+    plt.ylabel("Frequency")
+    plt.title(f"Histogram of {title}", color="r")
+
+    plt.show()
+    return None
