@@ -49,4 +49,10 @@ run every midnight or once a week etc. This step is really not the most crucial 
 11. Visualization export using plotly (Accuracy, Confusion metrics etc)
 12. :heavy_check_mark: Making the training fully functional by only selecting project (MNIST/FashionMNIST etc)
 13. Ray[Tune] integration 
-14. Device-agnostic code (not needed for now as I have only cpu)
+14. :heavy_check_mark: Device-agnostic code (not tested for now as I have only cpu)
+15. Adding more visualization functions:
+    - input visualization
+    - data distribution in each of train, val, test
+    - output visualization (errors, true predictions etc)
+    - confusion matrix, accuracy etc
+16. 
