@@ -9,6 +9,9 @@ def split_train_val(full_train_data, test_data):
     val_len = len(test_data)
     train_len = len(full_train_data) - val_len
     train_data, val_data = data.random_split(full_train_data, [train_len, val_len])
+    train_data = train_data.dataset
+    val_data = val_data.dataset
+
     return train_data, val_data
 
 
