@@ -27,6 +27,7 @@ class Simple_CNN_Classification(nn.Module):
                 padding=1,
             ),
             nn.ReLU(),
+            nn.BatchNorm2d(hidden_units),
             nn.MaxPool2d(kernel_size=2),
         )
         self.conv_block_2 = nn.Sequential(
@@ -46,6 +47,7 @@ class Simple_CNN_Classification(nn.Module):
                 padding=1,
             ),
             nn.ReLU(),
+            nn.BatchNorm2d(hidden_units),
             nn.MaxPool2d(kernel_size=2),
         )
 

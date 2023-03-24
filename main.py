@@ -24,9 +24,10 @@ def save_model(cfg, model):
     torch.save(obj=model, f=save_path)
 
 
-@hydra.main(version_base=None, config_path="./configs", config_name="fashion_mnist")
+@hydra.main(version_base=None, config_path="./configs", config_name="cifar100")
 def main_fn(cfg):
-    model = train_model(cfg)
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model = train_model(cfg, device)
     save_model(cfg, model)
 
     return None

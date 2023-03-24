@@ -2,6 +2,6 @@ project_name: "cifar100"
 data_dir: "_data/cifar100"
 
 training:
-  epochs: 10
+  epochs: 5
   batch_size: 32
   save_dir: "./_model/cifar100/"
