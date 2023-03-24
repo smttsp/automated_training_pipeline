@@ -111,8 +111,6 @@ def prepare_model(train_loader, device):
     return model, loss_fn, acc_fn, optimizer
 
 
-
-
 def train_model(cfg, device):
     epochs = cfg.get("training", {}).get("epochs", 5)
 

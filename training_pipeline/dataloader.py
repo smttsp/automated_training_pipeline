@@ -1,6 +1,7 @@
 from torch.utils.data import DataLoader
 
 from training_pipeline.data_downloader import download_fashion_mnist, download_project
+from training_pipeline.utils.visualizations import visualize_random_inputs_from_dataloader
 
 
 def get_dataloaders(cfg):
@@ -18,6 +19,13 @@ def get_dataloaders(cfg):
     data_dir = cfg.get("data_dir")
 
     train_data, val_data, test_data = download_project(project_name, data_dir)
+
+    visualize = True
+    if visualize:
+        rowcol = (5, 5)
+        visualize_random_inputs_from_dataloader(train_data, rowcol, "training set")
+        visualize_random_inputs_from_dataloader(val_data, rowcol, "validation set")
+        visualize_random_inputs_from_dataloader(test_data, rowcol, "test set")
 
     train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False)
