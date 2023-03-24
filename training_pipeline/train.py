@@ -20,7 +20,7 @@ def train_step(
     loss_fn,
     acc_fn,
     optimizer,
-    # device
+    device
 ):
     model.train()
 
@@ -28,8 +28,8 @@ def train_step(
     total_acc = 0
 
     for X, y in cur_dataloader:
-        # X = X.to(device)
-        # y = y.to(device)
+        X, y = X.to(device), y.to(device)
+
         y_logits = model(X)
         y_preds = torch.softmax(y_logits, dim=1)
         y_pred_labels = y_preds.argmax(dim=1)
@@ -50,14 +50,13 @@ def train_step(
     return mean_train_loss, mean_train_acc
 
 
-def get_all_predictions(model, cur_dataloader):
+def get_all_predictions(model, cur_dataloader, device):
     model.eval()
     y_pred_all = []
     y_all = []
     with torch.inference_mode():
         for X, y in cur_dataloader:
-            # X = X.to(device)
-            # y = y.to(device)
+            X, y = X.to(device), y.to(device)
 
             y_logits = model(X)
             y_pred = torch.softmax(y_logits, dim=1)
@@ -69,9 +68,9 @@ def get_all_predictions(model, cur_dataloader):
     return y_true, y_preds
 
 
-def get_confusion_matrix(model, cur_dataloader):
+def get_confusion_matrix(model, cur_dataloader, device):
     class_names = cur_dataloader.dataset.classes
-    y_true, y_preds = get_all_predictions(model, cur_dataloader)
+    y_true, y_preds = get_all_predictions(model, cur_dataloader, device)
 
     # Setup confusion matrix
     confmat = torchmetrics.ConfusionMatrix(task="multiclass", num_classes=len(class_names))
@@ -90,7 +89,7 @@ def eval_step(
     cur_dataloader,
     loss_fn,
     acc_fn,
-    # device,
+    device,
 ):
     model.eval()
 
@@ -99,8 +98,7 @@ def eval_step(
 
     with torch.inference_mode():
         for X, y in cur_dataloader:
-            # X = X.to(device)
-            # y = y.to(device)
+            X, y = X.to(device), y.to(device)
 
             y_logits = model(X)
             y_preds = torch.softmax(y_logits, dim=1)
@@ -118,29 +116,29 @@ def eval_step(
     return mean_loss, mean_accuracy
 
 
-def prepare_model(train_loader):
+def prepare_model(train_loader, device):
     first_X, first_y = next(iter(train_loader))
     num_classes = len(train_loader.dataset.dataset.classes)
 
-    model = Simple_CNN_Classification(first_X.shape, hidden_units=10, output_shape=num_classes)
+    model = Simple_CNN_Classification(first_X.shape, hidden_units=32, output_shape=num_classes).to(device=device)
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(params=model.parameters(), lr=0.1)
-    acc_fn = torchmetrics.Accuracy(task="multiclass", num_classes=num_classes)
+    acc_fn = torchmetrics.Accuracy(task="multiclass", num_classes=num_classes).to(device=device)
     return model, loss_fn, acc_fn, optimizer
 
 
-def train_model(cfg):
+def train_model(cfg, device):
     epochs = cfg.get("training", {}).get("epochs", 5)
 
     train_loader, val_loader, test_loader = get_dataloaders(cfg)
-    model, loss_fn, acc_fn, optimizer = prepare_model(train_loader)
+    model, loss_fn, acc_fn, optimizer = prepare_model(train_loader, device)
 
     for epoch in tqdm(range(epochs)):
         train_loss, train_acc = train_step(
-            model, cur_dataloader=train_loader, loss_fn=loss_fn, acc_fn=acc_fn, optimizer=optimizer
+            model, cur_dataloader=train_loader, loss_fn=loss_fn, acc_fn=acc_fn, optimizer=optimizer, device=device
         )
         val_loss, val_acc = eval_step(
-            model, cur_dataloader=val_loader, acc_fn=acc_fn, loss_fn=loss_fn
+            model, cur_dataloader=val_loader, acc_fn=acc_fn, loss_fn=loss_fn, device=device,
         )
 
         print(
@@ -149,11 +147,11 @@ def train_model(cfg):
             f"\n\tValidation --- loss: {val_loss}, acc: {val_acc}"
         )
     test_loss, test_acc = eval_step(
-        model, cur_dataloader=test_loader, acc_fn=acc_fn, loss_fn=loss_fn
+        model, cur_dataloader=test_loader, acc_fn=acc_fn, loss_fn=loss_fn, device=device,
     )
 
     print(f"\n\tTest results --- loss: {test_loss}, acc: {test_acc}")
 
-    get_confusion_matrix(model, test_loader)
+    get_confusion_matrix(model, test_loader, device)
 
     return model
