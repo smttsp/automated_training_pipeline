@@ -1,6 +1,10 @@
 project_name: "fashion_mnist"
 data_dir: "_data/fashion_mnist"
 
+#project_name: "mnist"
+#data_dir: "_data/mnist"
+
 training:
   epochs: 4
   batch_size: 32
+  save_dir: "./_model/fashion_mnist/"
