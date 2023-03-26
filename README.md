@@ -51,8 +51,12 @@ run every midnight or once a week etc. This step is really not the most crucial 
 13. Ray[Tune] integration 
 14. :heavy_check_mark: Device-agnostic code (not tested for now as I have only cpu)
 15. Adding more visualization functions:
-    - input visualization
-    - data distribution in each of train, val, test
+    - :heavy_check_mark: input visualization
+    - :heavy_check_mark: data distribution in each of train, val, test
     - output visualization (errors, true predictions etc)
-    - confusion matrix, accuracy etc
-16. 
+    - :heavy_check_mark: confusion matrix, accuracy etc
+16. Automate other parameters from yaml file (this will allow us for using raytune)
+    - model details (we should be able to update model details from the config)
+    - model name (be able to use some common models, resnet18, 50, vgg16 etc)
+    - 
+17. integrate neptune or weights & biases. Automatically track experiments
