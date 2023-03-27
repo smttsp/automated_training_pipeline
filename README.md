@@ -59,4 +59,4 @@ run every midnight or once a week etc. This step is really not the most crucial 
     - model details (we should be able to update model details from the config)
     - model name (be able to use some common models, resnet18, 50, vgg16 etc)
     - 
-17. integrate neptune or weights & biases. Automatically track experiments
+17. integrate neptune. Automatically track experiments
