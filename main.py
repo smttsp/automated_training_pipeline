@@ -5,47 +5,20 @@ import hydra
 import torch
 
 from training_pipeline.train import train_model
+from training_pipeline.utils.io_utils import save_model, parse_args, get_runtime_str
+# from training_pipeline.utils.neptune_utils import create_or_select_project
+
+CONFIG_NAME = parse_args()
+NEPTUNE_API_KEY = os.environ["NEPTUNE_API_KEY"]
 
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--config_name",
-        default="mnist",
-        required=False,  # it should be true by default and no default
-        type=str,
-        help="name of the config to be uses",
-    )
-    args = parser.parse_args()
-    print(args.config_name)
-    return args.config_name
-
-
-def get_runtime_str():
-    """Getting datetime as a string"""
-    runtime_str = (
-        datetime.now().isoformat().replace(":", "").replace("-", "").replace("T", "-").split(".")[0]
-    )
-    return runtime_str
-
-
-def save_model(cfg, model):
-    project_name = cfg.project_name
-    save_dir = cfg.training.save_dir
-
-    os.makedirs(save_dir, exist_ok=True)
-    save_path = os.path.join(save_dir, f"{project_name}_{get_runtime_str()}.pth")
-    torch.save(obj=model, f=save_path)
-
-
-config_name = parse_args()
-
-
-@hydra.main(version_base=None, config_path="./configs", config_name=config_name)
+@hydra.main(version_base=None, config_path="./configs", config_name=CONFIG_NAME)
 def main_fn(cfg):
+    runtime_str = get_runtime_str()
+    # create_or_select_project(CONFIG_NAME, NEPTUNE_API_KEY)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model = train_model(cfg, device)
-    save_model(cfg, model)
+    save_model(cfg, model, runtime_str)
 
     return None
 
