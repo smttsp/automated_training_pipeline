@@ -58,5 +58,4 @@ run every midnight or once a week etc. This step is really not the most crucial 
 16. Automate other parameters from yaml file (this will allow us for using raytune)
     - model details (we should be able to update model details from the config)
     - model name (be able to use some common models, resnet18, 50, vgg16 etc)
-    - 
-17. integrate neptune. Automatically track experiments
+17. integrate weights and biases. Automatically track experiments
