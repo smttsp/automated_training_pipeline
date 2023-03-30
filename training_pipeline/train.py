@@ -106,7 +106,7 @@ def prepare_model(train_loader, device):
     return model, loss_fn, acc_fn, optimizer
 
 
-def train_model(cfg, device):
+def train_model(cfg, device, wandb):
     epochs = cfg.get("training", {}).get("epochs", 5)
 
     train_loader, val_loader, test_loader = get_dataloaders(cfg)
@@ -129,12 +129,19 @@ def train_model(cfg, device):
             loss_fn=loss_fn,
             device=device,
         )
+        wandb.log({
+            "epoch": epoch,
+            "train_loss": train_loss,
+            "train_acc": train_acc,
+            "val_loss": val_loss,
+            "val_acc": val_acc,
+        })
 
-        print(
-            f"\n{epoch=}"
-            f"\n\tTrain      --- loss: {train_loss}, acc: {train_acc}"
-            f"\n\tValidation --- loss: {val_loss}, acc: {val_acc}"
-        )
+        # print(
+        #     f"\n{epoch=}"
+        #     f"\n\tTrain      --- loss: {train_loss}, acc: {train_acc}"
+        #     f"\n\tValidation --- loss: {val_loss}, acc: {val_acc}"
+        # )
     test_loss, test_acc = eval_step(
         model,
         cur_dataloader=test_loader,
@@ -143,7 +150,12 @@ def train_model(cfg, device):
         device=device,
     )
 
-    print(f"\n\tTest results --- loss: {test_loss}, acc: {test_acc}")
+    wandb.log({
+        "total_epochs": epochs,
+        "test_loss": test_loss,
+        "test_acc": test_acc
+    })
+    # print(f"\n\tTest results --- loss: {test_loss}, acc: {test_acc}")
 
     y_true, y_preds = get_all_predictions(model, test_loader, device)
     fig, ax = get_confusion_matrix(y_true, y_preds, class_names, device)
