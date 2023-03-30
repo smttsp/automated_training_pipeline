@@ -145,3 +145,4 @@ outputs/*
 **.pt
 _data/**
 _model/**
+wandb/**
