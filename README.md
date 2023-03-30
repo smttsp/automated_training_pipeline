@@ -87,6 +87,13 @@ poetry install
 ```
 (I couldn't figure out how to install `wandb` with poetry, it just breaks the poetry when installed that way :see_no_evil:)
 
+After installation, you need to do the following step:
+
+```bash
+wandb login
+```
+and enter API key obtained from `https://wandb.ai/quickstart` after logging in/signing up in the Weights & Biases webpage
+
 ## Poor man's Jira
 
 1. :heavy_check_mark: Setting up the repo
@@ -112,4 +119,3 @@ poetry install
     - model details (we should be able to update model details from the config)
     - model name (be able to use some common models, resnet18, 50, vgg16 etc)
 17. integrate weights and biases. Automatically track experiments
-
