@@ -2,6 +2,6 @@ project_name: "mnist"
 data_dir: "_data/mnist"
 
 training:
-  epochs: 4
+  epochs: 3
   batch_size: 32
   save_dir: "./_model/mnist/"

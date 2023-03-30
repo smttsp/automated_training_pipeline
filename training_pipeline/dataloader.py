@@ -7,7 +7,7 @@ from training_pipeline.utils.visualizations import (
 )
 
 
-def get_dataloaders(cfg):
+def get_dataloaders(cfg, wandb):
     """Downloading the fashion mnist data
 
     Args:
@@ -25,9 +25,9 @@ def get_dataloaders(cfg):
 
     visualize = True
     if visualize:
-        visualize_data_distribution(train_data, title="training set")
-        visualize_data_distribution(val_data, title="validation set")
-        visualize_data_distribution(test_data, title="test set")
+        visualize_data_distribution(train_data, title="training set", wandb=wandb)
+        visualize_data_distribution(val_data, title="validation set", wandb=wandb)
+        visualize_data_distribution(test_data, title="test set", wandb=wandb)
 
         # rowcol = (5, 5)
         # visualize_random_inputs(train_data, rowcol, "training set")

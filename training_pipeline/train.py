@@ -109,7 +109,7 @@ def prepare_model(train_loader, device):
 def train_model(cfg, device, wandb):
     epochs = cfg.get("training", {}).get("epochs", 5)
 
-    train_loader, val_loader, test_loader = get_dataloaders(cfg)
+    train_loader, val_loader, test_loader = get_dataloaders(cfg, wandb)
     model, loss_fn, acc_fn, optimizer = prepare_model(train_loader, device)
     class_names = test_loader.dataset.classes
 
@@ -151,7 +151,7 @@ def train_model(cfg, device, wandb):
     )
 
     wandb.log({
-        "total_epochs": epochs,
+        # "total_epochs": epochs,
         "test_loss": test_loss,
         "test_acc": test_acc
     })

@@ -34,7 +34,7 @@ def visualize_random_inputs(dataset, rowcol: tuple, suptitle="training"):
     return None
 
 
-def visualize_data_distribution(dataset, title="training"):
+def visualize_data_distribution(dataset, title="training", wandb=None):
     classes, targets = get_classes_targets(dataset)
     hist, _ = numpy.histogram(targets, bins=len(classes))
     bins = numpy.array(range(len(hist)))
@@ -45,5 +45,7 @@ def visualize_data_distribution(dataset, title="training"):
     plt.ylabel("Frequency")
     plt.title(f"Histogram of {title}", color="r")
 
-    plt.show()
+    # plt.show()
+    wandb.log({f"input/{title} data distribution": wandb.Image(plt)})
+
     return None
