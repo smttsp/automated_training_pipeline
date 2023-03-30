@@ -16,6 +16,7 @@ def get_classes_targets(dataset):
 
 
 def visualize_random_inputs(dataset, rowcol: tuple, suptitle="training"):
+    # TODO (smttsp): fix this function
     classes, targets = get_classes_targets(dataset)
     rows, cols = rowcol
     samples = random.sample(range(len(targets)), rows * cols)
