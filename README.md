@@ -113,8 +113,9 @@ and enter API key obtained from `https://wandb.ai/quickstart` after logging in/s
 15. Adding more visualization functions:
     - :heavy_check_mark: input visualization
     - :heavy_check_mark: data distribution in each of train, val, test
-    - output visualization (errors, true predictions etc)
-    - :heavy_check_mark: confusion matrix, accuracy etc
+    - :heavy_check_mark: output visualization (errors, true predictions etc)
+    - confusion matrix, accuracy etc
+    - activation visualization?
 16. Automate other parameters from yaml file (this will allow us for using raytune)
     - model details (we should be able to update model details from the config)
     - model name (be able to use some common models, resnet18, 50, vgg16 etc)
