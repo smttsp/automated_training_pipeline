@@ -119,3 +119,5 @@ and enter API key obtained from `https://wandb.ai/quickstart` after logging in/s
     - model details (we should be able to update model details from the config)
     - model name (be able to use some common models, resnet18, 50, vgg16 etc)
 17. integrate weights and biases. Automatically track experiments
+18. integrate `timm` library for model architectures
+19. 
