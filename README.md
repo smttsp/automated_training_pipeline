@@ -82,7 +82,6 @@ direnv allow
 python --version
 pip install --upgrade pip
 pip install poetry
-pip install wandb
 poetry install
 ```
 (I couldn't figure out how to install `wandb` with poetry, it just breaks the poetry when installed that way :see_no_evil:)
@@ -119,6 +118,6 @@ and enter API key obtained from `https://wandb.ai/quickstart` after logging in/s
 16. Automate other parameters from yaml file (this will allow us for using raytune)
     - model details (we should be able to update model details from the config)
     - model name (be able to use some common models, resnet18, 50, vgg16 etc)
-17. integrate weights and biases. Automatically track experiments
+17. :heavy_check_mark: integrate `weights and biases` and `neptune`. Automatically track experiments
 18. integrate `timm` library for model architectures
 19. 
