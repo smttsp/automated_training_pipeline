@@ -7,7 +7,7 @@ from training_pipeline.utils.io_utils import save_model, parse_args, get_runtime
 from training_pipeline.utils.wandb_utils import create_wandb_project
 
 PROJECT_NAME = parse_args()
-import neptune
+
 
 @hydra.main(version_base=None, config_path="./configs", config_name=PROJECT_NAME)
 def main_fn(cfg):
@@ -20,6 +20,8 @@ def main_fn(cfg):
 
     wandb.finish()
     return None
+
+
 
 
 if __name__ == "__main__":
