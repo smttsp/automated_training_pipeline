@@ -12,8 +12,6 @@ import pytest
 @pytest.fixture(scope="session")
 def env_setup(monkeypatch):
     """Setup Environment Variables through PyTest's `monkeypatch` feature.
-
-    TODO (tommy@overjet.ai): Configure this for your repository. See an example below of how to use
         the `pytest` "`monkeypatch`" feature -- postfixes.
     """
     # monkeypatch.setenv(

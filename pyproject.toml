@@ -2,7 +2,7 @@
 name = "example_template"
 version = "1.0.0"
 description = "This is a template example for creating internal Python Packages"
-authors = ["Overjet <info@overjet.ai>"]
+authors = ["smttsp"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
